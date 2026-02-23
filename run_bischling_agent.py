@@ -285,7 +285,7 @@ def make_report():
     now_local = datetime.now(tz)
 
     # DST-safe gating window: send only around 06:30 local
-    if False:
+    if not (now_local.hour == 7 and 20 <= now_local.minute <= 40):
         print(f"Not in send window (local time {now_local:%H:%M}). Exiting.")
         return None
 
