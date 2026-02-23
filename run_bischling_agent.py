@@ -64,19 +64,19 @@ def get_bischling_weather(date_str: str, hour_local: int = 6):
     url = "https://api.open-meteo.com/v1/gfs"
 
     hourly = [
-        "temperature_2m",
-        "dewpoint_2m",
-        "cloudcover",
-        "cloudcover_low",
-        "cloudcover_mid",
-        "cloudcover_high",
-        "precipitation",
-        "windspeed_10m",
-        "winddirection_10m",
-        "windgusts_10m",
-        # optional convective
-        "cape",
-        "cin",
+         "temperature_2m",
+         "dewpoint_2m",
+         "cloud_cover",
+         "cloud_cover_low",
+         "cloud_cover_mid",
+         "cloud_cover_high",
+         "precipitation",
+         "wind_speed_10m",
+         "wind_direction_10m",
+         "wind_gusts_10m",
+         # convective:
+         "cape",
+         "convective_inhibition",
     ]
 
     for L in LEVELS:
@@ -111,17 +111,17 @@ def get_bischling_weather(date_str: str, hour_local: int = 6):
     # Surface
     T = float(_get_hourly("temperature_2m"))
     Td = float(_get_hourly("dewpoint_2m"))
-    wind10 = float(_get_hourly("windspeed_10m"))
-    wind10_dir = float(_get_hourly("winddirection_10m"))
-    gusts = float(_get_hourly("windgusts_10m"))
-    cloud = float(_get_hourly("cloudcover"))
-    cloud_low = float(_get_hourly("cloudcover_low"))
-    cloud_mid = float(_get_hourly("cloudcover_mid"))
-    cloud_high = float(_get_hourly("cloudcover_high"))
+    wind10 = float(_get_hourly("wind_speed_10m"))
+    wind10_dir = float(_get_hourly("wind_direction_10m"))
+    gusts = float(_get_hourly("wind_gusts_10m"))
+    cloud = float(_get_hourly("cloud_cover"))
+    cloud_low = float(_get_hourly("cloud_cover_low"))
+    cloud_mid = float(_get_hourly("cloud_cover_mid"))
+    cloud_high = float(_get_hourly("cloud_cover_high"))
     precip = float(_get_hourly("precipitation"))
-
     cape = _get_hourly("cape", None)
-    cin = _get_hourly("cin", None)
+    cin = _get_hourly("convective_inhibition", None)
+
     cape = float(cape) if cape is not None else None
     cin = float(cin) if cin is not None else None
 
