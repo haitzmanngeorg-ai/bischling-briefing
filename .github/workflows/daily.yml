@@ -23,6 +23,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Restore sent marker cache
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: bischling-sent-marker
+
+      - name: Ensure cache dir
+        run: mkdir -p .cache
       - name: Run briefing
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
