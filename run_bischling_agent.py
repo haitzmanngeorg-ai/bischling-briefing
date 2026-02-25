@@ -280,18 +280,36 @@ MORGEN JSON:
 """
 
 
+from pathlib import Path
+
+def already_sent_today() -> bool:
+    marker = Path(".cache/last_sent.txt")
+    today_str = date.today().isoformat()
+
+    if marker.exists():
+        last = marker.read_text(encoding="utf-8").strip()
+        if last == today_str:
+            return True
+
+    marker.parent.mkdir(parents=True, exist_ok=True)
+    marker.write_text(today_str, encoding="utf-8")
+    return False
+
+
 def make_report():
+    if already_sent_today():
+        print("Already sent today. Exiting.")
+        return None
+
     tz = ZoneInfo(TZ_NAME)
     now_local = datetime.now(tz)
 
-    # DST-safe gating window: send only around 06:30 local
     print(f"Local time {now_local:%H:%M} - sending briefing.")
 
     today = date.today()
     tomorrow = today + timedelta(days=1)
     day2 = today + timedelta(days=2)
 
-    # 06:00 snapshot (very likely available). If you prefer closer to 06:30, set to 7.
     hour_local = 6
 
     d0 = get_bischling_weather(today.isoformat(), hour_local=hour_local)
