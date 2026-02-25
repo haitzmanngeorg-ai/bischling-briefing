@@ -285,9 +285,7 @@ def make_report():
     now_local = datetime.now(tz)
 
     # DST-safe gating window: send only around 06:30 local
-    if not (now_local.hour == 6 and 0 <= now_local.minute <= 59):
-        print(f"Not in send window (local time {now_local:%H:%M}). Exiting.")
-        return None
+    print(f"Local time {now_local:%H:%M} - sending briefing.")
 
     today = date.today()
     tomorrow = today + timedelta(days=1)
